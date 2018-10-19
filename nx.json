@@ -7,5 +7,17 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "electron-backend": {
+      "tags": [
+        "backend"
+      ]
+    },
+    "electron-frontend": {
+      "tags": []
+    },
+    "electron-frontend-e2e": {
+      "tags": []
+    }
+  }
 }
