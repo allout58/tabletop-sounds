@@ -27,6 +27,9 @@
                   "with": "apps/electron-backend/src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "serve": {
+              "watch": true
             }
           }
         },
@@ -76,6 +79,7 @@
             "main": "apps/electron-frontend/src/main.ts",
             "polyfills": "apps/electron-frontend/src/polyfills.ts",
             "tsConfig": "apps/electron-frontend/tsconfig.app.json",
+            "aot": true,
             "assets": [
               "apps/electron-frontend/src/favicon.ico",
               "apps/electron-frontend/src/assets"
