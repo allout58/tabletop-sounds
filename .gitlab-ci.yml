@@ -27,7 +27,7 @@ stages:
 commit-lint:
   stage: lint
   script:
-  - yarn cli:commitlint
+  - yarn ci:commitlint
 
 code-lint:
   stage: lint
