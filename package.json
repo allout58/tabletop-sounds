@@ -31,7 +31,8 @@
     "develop": "concurrently -k -p \"[{name}]\" -n \"Angular,ElectronBuilder,Electron\" -c \"yellow.bold,cyan.bold,green.bold\" \"ng serve electron-frontend\" \"yarn run electron:serve\" \"yarn run electron:dev\"",
     "ci:commitlint": "commitlint --from $CI_COMMIT_BEFORE_SHA",
     "ci:build": "nx affected:build --from $CI_COMMIT_BEFORE_SHA",
-    "ci:lint": "nx lint && nx affected:lint --from $CI_COMMIT_BEFORE_SHA"
+    "ci:lint": "nx lint && nx affected:lint --from $CI_COMMIT_BEFORE_SHA",
+    "ci:test": "nx affected:test --from $CI_COMMIT_BEFORE_SHA"
   },
   "release": {
     "plugins": [

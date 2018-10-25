@@ -38,7 +38,7 @@ commit-lint:
 code-lint:
   stage: lint
   script:
-  - yarn lint
+  - yarn ci:lint
 
 test_server:
   stage: test
