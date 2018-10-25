@@ -1,13 +1,14 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: kkarczmarczyk/node-yarn:latest
+#image: kkarczmarczyk/node-yarn:latest
+image: popcornpool/chrome-node-yarn:latest
 
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
 #services:
-#- postgres:latest
+#- justinribeiro/chrome-headless
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -15,8 +16,8 @@ cache:
   paths:
   - node_modules/
 
-before_script:
-- yarn install --frozen-lockfile
+#before_script:
+#- yarn install --frozen-lockfile
 
 stages:
 - lint
@@ -25,6 +26,8 @@ stages:
 - release
 
 commit-lint:
+  before_script:
+  - yarn install --frozen-lockfile
   stage: lint
   script:
   - yarn ci:commitlint
