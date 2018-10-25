@@ -2,6 +2,7 @@
   "name": "tabletop-sounds",
   "version": "0.0.0",
   "license": "MIT",
+  "repository": "git@192.168.1.181:jhollowell/tabletop-sounds",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,7 +28,15 @@
     "electron": "electron ./dist/apps/electron-backend/main.js",
     "electron:dev": "wait-on http-get://localhost:4200/ && yarn electron",
     "electron:serve": "ng build electron-backend --configuration=serve",
-    "develop": "concurrently -k -p \"[{name}]\" -n \"Angular,ElectronBuilder,Electron\" -c \"yellow.bold,cyan.bold,green.bold\" \"ng serve electron-frontend\" \"yarn run electron:serve\" \"yarn run electron:dev\""
+    "develop": "concurrently -k -p \"[{name}]\" -n \"Angular,ElectronBuilder,Electron\" -c \"yellow.bold,cyan.bold,green.bold\" \"ng serve electron-frontend\" \"yarn run electron:serve\" \"yarn run electron:dev\"",
+    "ci:commitlint": "commitlint --from $CI_COMMIT_BEFORE_SHA"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/gitlab"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -52,8 +61,12 @@
     "@angular/cli": "6.2.4",
     "@angular/compiler-cli": "^6.1.0",
     "@angular/language-service": "^6.1.0",
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@commitlint/prompt-cli": "^7.2.1",
     "@nrwl/builders": "6.4.0",
     "@nrwl/schematics": "6.4.0",
+    "@semantic-release/gitlab": "^3.0.4",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/jest": "^23.0.0",
@@ -74,6 +87,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "prettier": "1.13.7",
     "protractor": "~5.4.0",
+    "semantic-release": "^15.10.5",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~2.9.2",

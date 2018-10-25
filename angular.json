@@ -142,7 +142,14 @@
             "assets": [
               "apps/electron-frontend/src/favicon.ico",
               "apps/electron-frontend/src/assets"
-            ]
+            ],
+            "browsers": "ChromeHeadless"
+          },
+          "configurations": {
+            "develop": {
+              "browsers": "Chrome",
+              "karmaConfig": "apps/electron-frontend/karma.develop.conf.js"
+            }
           }
         },
         "lint": {
