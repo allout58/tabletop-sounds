@@ -41,7 +41,7 @@ code-lint:
 test_server:
   stage: test
   script:
-  - yarn test
+  - yarn ci:test
   artifacts:
     paths:
     - coverage/
@@ -49,7 +49,7 @@ test_server:
 build:
   stage: build
   script:
-  - yarn build
+  - yarn ci:build
   artifacts:
     paths:
     - dist/
