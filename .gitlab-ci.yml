@@ -17,18 +17,20 @@ cache:
   paths:
   - node_modules/
 
-#before_script:
-#- yarn install --frozen-lockfile
 
 stages:
+- install
 - lint
 - test
 - build
 - release
 
-commit-lint:
-  before_script:
+yarn-install:
+  stage: install
+  script:
   - yarn install --frozen-lockfile
+
+commit-lint:
   stage: lint
   script:
   - yarn ci:commitlint
