@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {faBars} from '@fortawesome/pro-solid-svg-icons';
 
 @Component({
   selector: 'tabletop-sounds-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'electron-frontend';
+
+  faBars = faBars;
 }

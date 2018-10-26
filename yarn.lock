@@ -478,6 +478,44 @@
   dependencies:
     find-up "^2.1.0"
 
+"@fortawesome/angular-fontawesome@^0.3.0":
+  version "0.3.0"
+  resolved "https://npm.fontawesome.com/@fortawesome/angular-fontawesome/-/angular-fontawesome-0.3.0.tgz#380492f186469ce03d6fdbb3ec719810f771bf62"
+  integrity sha512-wXvyPI7GidoNiqeMz2re9iemUMFH4zBmuv94CfXlaanQ8+kMP/fYs/k69PLVN1KsebQY4kRA9GHmc1U1ndBkJg==
+  dependencies:
+    tslib "^1.9.0"
+
+"@fortawesome/fontawesome-common-types@^0.2.7":
+  version "0.2.7"
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.7.tgz#fe76803922db0eb4393675199c2e0c3bad52629c"
+  integrity sha512-lFgL3Kqfwk8WS66pkBx5rpd7IQuo8UuahZXH9iuV9UrPK8eDzLccCYopnhTUgsz7+aJpMpqjVyv/N/11j5TtVw==
+
+"@fortawesome/fontawesome-pro@^5.4.2":
+  version "5.4.2"
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-pro/-/fontawesome-pro-5.4.2.tgz#af54e8a44d6bd1edc9af2b9dd356cb9a497095d5"
+  integrity sha512-jI8Z9kLMtg4F/9HjlRrPvbikfWLvl7KC/DVyO2OKIijiv4MWQhqnq8HnI1MJgLThRuVL4emm/p4rV3KXZOlCvA==
+
+"@fortawesome/fontawesome-svg-core@^1.2.7":
+  version "1.2.7"
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.7.tgz#064aefa1c8e4b055fbc6de0b6fbd3ff5ecf564ea"
+  integrity sha512-lkysL+BqfeggO+rAew3WFHJNImB47NBQrEfD32gXaS3MYkEdo1YkGkQ6/4hfY4Dt7rJfSseeUIYqMB8eEHD9JQ==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.7"
+
+"@fortawesome/pro-regular-svg-icons@^5.4.2":
+  version "5.4.2"
+  resolved "https://npm.fontawesome.com/@fortawesome/pro-regular-svg-icons/-/pro-regular-svg-icons-5.4.2.tgz#1ad96ad8d32db29e42225220181fce32a524d494"
+  integrity sha512-y7WfW1/WQDXFzwMAEtnwAUAeGd3ROJ3IKpnrPYSNY1xPYzZkf3L317JqAXWAOjABH0Eca/7lnUaFGkitdc/ZOQ==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.7"
+
+"@fortawesome/pro-solid-svg-icons@^5.4.2":
+  version "5.4.2"
+  resolved "https://npm.fontawesome.com/@fortawesome/pro-solid-svg-icons/-/pro-solid-svg-icons-5.4.2.tgz#24c557c6d4974dab3d47f73ced4ab1905d05754b"
+  integrity sha512-ugkAmG9j8egK9oQjaXiH565ndpal2tGJPNoreTtxG7c1kvcv4Q8BE5DukYJHqmQWNmDUt3QZ1Cei1tfw8BPM7A==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.7"
+
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@marionebl/sander/-/sander-0.6.1.tgz#1958965874f24bc51be48875feb50d642fc41f7b"
@@ -1800,6 +1838,11 @@ boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
+
+bootstrap@^4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.3.tgz#0eb371af2c8448e8c210411d0cb824a6409a12be"
+  integrity sha512-rDFIzgXcof0jDyjNosjv4Sno77X4KuPeFxG2XZZv1/Kc8DRVGVADdoQyyOVDwPqL36DDmtCQbrpMCqvpPLJQ0w==
 
 bottleneck@^2.0.1:
   version "2.12.2"
