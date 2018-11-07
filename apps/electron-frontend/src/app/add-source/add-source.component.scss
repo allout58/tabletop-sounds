@@ -1,0 +1,7 @@
+.field-row {
+  display: flex;
+  & > * {
+    margin: 0 1em;
+    width: 100%;
+  }
+}
