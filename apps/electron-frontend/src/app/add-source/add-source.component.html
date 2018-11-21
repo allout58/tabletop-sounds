@@ -1,6 +1,10 @@
 <mat-vertical-stepper>
   <mat-step label="Track Source">
-    <p>Track source selection</p>
+    <div class="my-3">
+      <button mat-raised-button>
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'file-audio']" class="my-2" size="4x"></fa-icon>
+      </button>
+    </div>
     <div>
       <button mat-raised-button matStepperNext>Next</button>
     </div>
@@ -15,8 +19,8 @@
   <mat-step label="Track Information">
     <div class="field-row">
       <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput readonly>
+        <mat-label for="name">Name</mat-label>
+        <input id="name" matInput readonly>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Album</mat-label>

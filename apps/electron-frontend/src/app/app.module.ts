@@ -20,9 +20,17 @@ import {
 import {routes} from "./routes";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faSpotify} from "@fortawesome/free-brands-svg-icons";
+import {faFileAudio} from "@fortawesome/pro-solid-svg-icons";
+
+library.add(faSpotify);
+library.add(faFileAudio);
+
 @NgModule({
   declarations: [AppComponent, AddSourceComponent, PlayBarComponent, PlaylistComponent, SettingsComponent],
   imports: [
+    BrowserAnimationsModule,
     MatStepperModule,
     MatButtonModule,
     MatListModule,
@@ -32,8 +40,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     MatFormFieldModule,
     BrowserModule,
     RouterModule.forRoot(routes, {initialNavigation: 'enabled', anchorScrolling: "enabled"}),
-    FontAwesomeModule,
-    BrowserAnimationsModule
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
