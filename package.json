@@ -41,9 +41,6 @@
       "@semantic-release/gitlab"
     ]
   },
-  "engines": {
-    "electron": "3.0.5"
-  },
   "private": false,
   "dependencies": {
     "@angular/animations": "^6.1.0",
