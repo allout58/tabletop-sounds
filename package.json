@@ -25,6 +25,7 @@
     "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "help": "./node_modules/.bin/nx help",
+    "postinstall": "electron-rebuild",
     "electron": "electron ./dist/apps/electron-backend/main.js",
     "electron:dev": "wait-on http-get://localhost:4200/ && yarn electron",
     "electron:serve": "ng build electron-backend --configuration=serve",
@@ -67,6 +68,7 @@
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "rxjs": "^6.0.0",
+    "sqlite3": "^4.0.4",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -85,9 +87,11 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/jest": "^23.0.0",
     "@types/node": "~8.9.4",
+    "@types/sqlite3": "^3.1.3",
     "codelyzer": "~4.2.1",
     "concurrently": "^4.0.1",
     "electron": "^3.0.5",
+    "electron-rebuild": "^1.8.2",
     "electron-reload": "^1.2.5",
     "jasmine-core": "~2.99.1",
     "jasmine-marbles": "0.3.1",
