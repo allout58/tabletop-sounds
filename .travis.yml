@@ -11,7 +11,7 @@ before_install:
 
 before_script:
   - yarn ng version
-  - if [ "${TRAVIS_PULL_REQUEST_BRANCH}" == "" ]; then EXPORT CI_COMMIT_BEFORE_SHA="HEAD~1"; else EXPORT CI_COMMIT_BEFOR_SHA="${TRAVIS_PULL_REQUEST_BRANCH}";fi;
+  - source ./scripts/travis-env.sh
 
 script:
   - yarn ci:commitlint
