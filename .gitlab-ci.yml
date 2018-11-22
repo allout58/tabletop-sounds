@@ -28,7 +28,8 @@ stages:
 yarn-install:
   stage: install
   script:
-  - yarn install --frozen-lockfile
+    - mv ci.npmrc .npmrc
+    - yarn install --frozen-lockfile
 
 commit-lint:
   stage: lint

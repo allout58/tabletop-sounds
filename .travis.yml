@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - 10
+
+cache:
+  directories:
+    - ~/.npm
+
+before_install:
+  - mv ci.npmrc .npmrc
+
+before_script:
+  - yarn ng version
+  - source ./scripts/travis-env.sh
+
+script:
+  - yarn ci:commitlint
+  - yarn ci:lint
+  - yarn ci:test
+  - yarn ci:build
+
+after_success:
+  - npm run travis-deploy-once "npm run semantic-release"
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
