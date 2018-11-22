@@ -1,19 +1,17 @@
 language: node_js
 node_js:
   - 10
-env:
-  - CI_BEFORE_COMMIT_SHA=${TRAVIS_COMMIT}
 
 cache:
   directories:
     - ~/.npm
 
 before_install:
-  - echo ${TRAVIS_COMMIT_RANGE}
   - mv ci.npmrc .npmrc
 
 before_script:
   - yarn ng version
+  - if [ "${TRAVIS_PULL_REQUEST_BRANCH}" == ""]; then EXPORT CI_COMMIT_BEFORE_SHA="HEAD~1"; else EXPORT CI_COMMIT_BEFOR_SHA="${TRAVIS_PULL_REQUEST_BRANCH}";fi;
 
 script:
   - yarn ci:commitlint
