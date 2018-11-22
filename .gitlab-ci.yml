@@ -29,6 +29,7 @@ yarn-install:
   stage: install
   script:
     - echo "@fortawesome:registry=https://npm.fontawesome.com/\n//npm.fontawesome.com/:_authToken=\${FA_PRO_AUTH}" > .npmrc
+    - cat .npmrc
     - yarn install --frozen-lockfile
 
 commit-lint:
