@@ -1,12 +1,15 @@
 language: node_js
 node_js:
   - 10
+env:
+  - CI_BEFORE_COMMIT_SHA=${TRAVIS_COMMIT}
 
 cache:
   directories:
     - ~/.npm
 
 before_install:
+  - echo ${TRAVIS_COMMIT_RANGE}
   - mv ci.npmrc .npmrc
 
 before_script:
