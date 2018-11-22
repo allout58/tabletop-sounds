@@ -3,5 +3,4 @@ node_js:
   - 10
 
 before_install:
-  - echo "@fortawesome:registry=https://npm.fontawesome.com/\n//npm.fontawesome.com/:_authToken=\${FA_PRO_AUTH}" > .npmrc
-  - cat .npmrc
+  - mv ci.npmrc .npmrc
