@@ -28,6 +28,7 @@ stages:
 yarn-install:
   stage: install
   script:
+  - echo "//npm.fontawesome.com/:_authToken=\${FA_PRO_AUTH}" > .npmrc
   - yarn install --frozen-lockfile
 
 commit-lint:
