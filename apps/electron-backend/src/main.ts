@@ -1,13 +1,11 @@
 import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import {environment} from "./environments/environment";
-import {DBAccess} from "./app/db";
+import {environment} from './environments/environment';
+import {DBAccess} from './app/utils/db';
+import {TrackInterface} from './app/track/interface';
 
 let win;
-
-console.log('dirname', __dirname);
-console.log('hello world', 'reload?');
 
 const db = new DBAccess();
 db.close().subscribe(x => console.log(x));
@@ -72,6 +70,8 @@ try {
       createWindow();
     }
   });
+
+  new TrackInterface(db);
 
 } catch (e) {
   // Catch Error

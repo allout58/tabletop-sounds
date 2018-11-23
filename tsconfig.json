@@ -16,6 +16,12 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@tabletop-sounds/utils": [
+        "libs/utils/src/index.ts"
+      ],
+      "@tabletop-sounds/ipc-channels": [
+        "libs/ipc-channels/src/index.ts"
+      ]
     }
   },
   "exclude": [

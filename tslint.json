@@ -95,6 +95,26 @@
       {
         "allow": [],
         "depConstraints": [
+          {
+            "sourceTag": "frontend",
+            "onlyDependOnLibsWithTags": [
+              "common",
+              "frontend"
+            ]
+          },
+          {
+            "sourceTag": "backend",
+            "onlyDependOnLibsWithTags": [
+              "common",
+              "backend"
+            ]
+          },
+          {
+            "sourceTag": "common",
+            "onlyDependOnLibsWithTags": [
+              "common"
+            ]
+          },
           { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
         ]
       }

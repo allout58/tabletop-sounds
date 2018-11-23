@@ -14,8 +14,8 @@
  *    limitations under the License.
  */
 
-import {Database, OPEN_CREATE, OPEN_READWRITE} from "sqlite3";
-import {Observable} from "rxjs";
+import {Database, OPEN_CREATE, OPEN_READWRITE} from 'sqlite3';
+import {Observable} from 'rxjs';
 
 export class DBAccess {
   private isEmptyDB = true;
@@ -35,41 +35,60 @@ export class DBAccess {
   close() {
     return Observable.create(observer => {
       this.db.close(err => {
-          if (err) {
-            observer.error(err);
-          } else {
-            observer.next(null);
-            this._db = null;
-          }
-          observer.complete();
-        }
-      )
+                      if (err) {
+                        observer.error(err);
+                      } else {
+                        observer.next(null);
+                        this._db = null;
+                      }
+                      observer.complete();
+                    }
+      );
     });
   }
 
+  /**
+   * Attempts to create the DB Schema
+   */
+  // TODO: Determine how to upgrade a schema when needed
   private createDB() {
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS tracks (' +
-      'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
-      'name VARCHAR,' +
-      'album VARCHAR,' +
-      'artist VARCHAR' +
-      ');');
+                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+                   'name VARCHAR,' +
+                   'album VARCHAR,' +
+                   'artist VARCHAR' +
+                   ');');
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS tags (' +
-      'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
-      'tag_name VARCHAR' +
-      ');');
+                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+                   'tag_name VARCHAR' +
+                   ');');
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS track_tags (' +
-      'track_id INTEGER,' +
-      'tag_id INTEGER,' +
-      'PRIMARY KEY (track_id, tag_id),' +
-      'FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE CASCADE ON UPDATE NO ACTION,' +
-      'FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE ON DELETE NO ACTION' +
-      ');');
+                   'track_id INTEGER,' +
+                   'tag_id INTEGER,' +
+                   'PRIMARY KEY (track_id, tag_id),' +
+                   'FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE CASCADE ON UPDATE NO ACTION,' +
+                   'FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE ON DELETE NO ACTION' +
+                   ');');
 
     this.isEmptyDB = false;
+  }
+
+  all<T>(sql: string, ...params): Observable<T[]> {
+    return Observable.create(observer => {
+      this.db.all(sql, params, (err, rows) => {
+        console.log('resp', err, rows);
+        if (err) {
+          console.error('Error with SQL', err);
+          observer.error(err);
+        } else {
+          observer.next(rows);
+        }
+        observer.complete();
+      });
+    });
   }
 
   // run(sql: string, ...params): this {

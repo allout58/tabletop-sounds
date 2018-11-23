@@ -14,10 +14,24 @@
       ]
     },
     "electron-frontend": {
-      "tags": []
+      "tags": [
+        "frontend"
+      ]
     },
     "electron-frontend-e2e": {
       "tags": []
+    },
+    "utils": {
+      "tags": [
+        "utils",
+        "common"
+      ]
+    },
+    "ipc-channels": {
+      "tags": [
+        "ipc",
+        "common"
+      ]
     }
   }
 }
