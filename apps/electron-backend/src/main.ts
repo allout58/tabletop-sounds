@@ -71,7 +71,7 @@ try {
     }
   });
 
-  new TrackInterface(db);
+  const intf = new TrackInterface(db);
 
 } catch (e) {
   // Catch Error
