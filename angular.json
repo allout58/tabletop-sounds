@@ -191,6 +191,62 @@
           }
         }
       }
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "prefix": "tabletop-sounds",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/utils/tsconfig.lib.json",
+              "libs/utils/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "tsConfig": "libs/utils/tsconfig.spec.json",
+            "setupFile": "libs/utils/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ipc-channels": {
+      "root": "libs/ipc-channels",
+      "sourceRoot": "libs/ipc-channels/src",
+      "projectType": "library",
+      "prefix": "tabletop-sounds",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ipc-channels/tsconfig.lib.json",
+              "libs/ipc-channels/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ipc-channels/jest.config.js",
+            "tsConfig": "libs/ipc-channels/tsconfig.spec.json",
+            "setupFile": "libs/ipc-channels/src/test-setup.ts"
+          }
+        }
+      }
     }
   },
   "cli": {

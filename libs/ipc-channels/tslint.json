@@ -1,0 +1,17 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "tabletop-sounds",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "tabletop-sounds",
+      "kebab-case"
+    ]
+  }
+}
