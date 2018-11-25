@@ -18,6 +18,8 @@ import {Interface} from "./interface";
 import {DBAccess} from "../utils/db";
 import {Event, ipcMain} from 'electron';
 import {
+  ADD_TRACK_REQUEST,
+  ADD_TRACK_RESPONSE,
   AddTrackRequest,
   TRACK_METADATA_REQUEST,
   TRACK_METADATA_RESPONSE,
@@ -35,6 +37,7 @@ export class TrackInterface implements Interface {
 
   enable() {
     this.initMetadata();
+    this.initAdd();
   }
 
   private initMetadata() {
@@ -50,6 +53,14 @@ export class TrackInterface implements Interface {
             }
           } as TransferWrapper<AddTrackRequest>)
         })
+    })
+  }
+
+  private initAdd() {
+    ipcMain.on(ADD_TRACK_REQUEST, (event: Event, track: AddTrackRequest) => {
+      this.db.run('INSERT INTO tracks (name, album, artist, location) VALUES (?, ?, ?, ?)', track.name, track.album, track.artist, track.location)
+        .subscribe(x => event.sender.send(ADD_TRACK_RESPONSE, x),
+          err => event.sender.send(ADD_TRACK_RESPONSE, {error: err}))
     })
   }
 

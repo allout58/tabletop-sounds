@@ -88,7 +88,6 @@ export class DBAccess {
   all<T>(sql: string, ...params): Observable<T[]> {
     return Observable.create(observer => {
       this.db.all(sql, params, (err, rows) => {
-        console.log('resp', err, rows);
         if (err) {
           console.error('Error with SQL', err);
           observer.error(err);
@@ -123,7 +122,7 @@ export class DBAccess {
 
   run(sql: string, ...params): Observable<boolean> {
     return Observable.create(observer => {
-      this.db.run(sql, params, (err, result) => {
+      this.db.run(sql, params, err => {
         if (err) {
           console.error('Error with SQL', err);
           observer.error(err);

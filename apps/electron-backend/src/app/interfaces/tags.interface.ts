@@ -18,6 +18,7 @@ import {Interface} from "./interface";
 import {DBAccess} from "../utils/db";
 import {Event, ipcMain} from 'electron';
 import {SEARCH_TAG_REQUEST, SEARCH_TAG_RESPONSE} from "@tabletop-sounds/ipc-channels";
+import {map, tap} from "rxjs/operators";
 
 export class TagsInterface implements Interface {
   constructor(private db: DBAccess) {
@@ -34,10 +35,14 @@ export class TagsInterface implements Interface {
   private initSearch() {
     ipcMain.on(SEARCH_TAG_REQUEST, (event: Event, arg?: string) => {
       this.db.all<{ tag_name: string }>('SELECT tag_name FROM tags WHERE tag_name LIKE ?', `%${(arg || '').toLowerCase()}%`)
-        .subscribe(x => {
-          const ret = x.map(y => y.tag_name);
-          event.sender.send(SEARCH_TAG_RESPONSE, ret);
-        })
+        .pipe(
+          map(x => x.map(y => y.tag_name)),
+          tap(x => console.log('Tag Search Result', x))
+        )
+        .subscribe(
+          x => event.sender.send(SEARCH_TAG_RESPONSE, {result: x}),
+          err => event.sender.send(SEARCH_TAG_RESPONSE, {error: err})
+        )
     })
   }
 

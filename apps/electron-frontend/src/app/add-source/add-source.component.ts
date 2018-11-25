@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {
   ADD_TAGS_TO_TRACK_REQUEST,
   ADD_TRACK_REQUEST,
@@ -29,6 +29,7 @@ export class AddSourceComponent implements OnInit {
 
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('stepper') matStepper: MatVerticalStepper;
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>;
 
 
   fileMetadata: AddTrackRequest = null;
@@ -52,7 +53,7 @@ export class AddSourceComponent implements OnInit {
     });
 
     this.tagControl.valueChanges.subscribe(x => {
-      this.electron.ipcRenderer.send(SEARCH_TAG_REQUEST, x == null ? '' : x);
+      this.electron.ipcRenderer.send(SEARCH_TAG_REQUEST, x);
     });
   }
 
@@ -90,6 +91,7 @@ export class AddSourceComponent implements OnInit {
 
   selectTag(event: MatAutocompleteSelectedEvent) {
     this.tags.push(event.option.value);
+    this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
   }
 

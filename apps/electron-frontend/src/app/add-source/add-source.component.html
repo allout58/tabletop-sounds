@@ -44,6 +44,7 @@
         </mat-chip>
         <input
           placeholder="New tag..."
+          #tagInput
           [formControl]="tagControl"
           [matAutocomplete]="auto"
           [matChipInputFor]="chipList"
