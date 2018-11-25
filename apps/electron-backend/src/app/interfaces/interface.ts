@@ -13,8 +13,8 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-export interface TransferWrapper<T> {
-  result?: T;
-  error?: Error;
-}
+export interface Interface {
+  enable();
 
+  disable();
+}

@@ -9,23 +9,28 @@ import {PlayBarComponent} from './component/play-bar/play-bar.component';
 import {PlaylistComponent} from './playlist/playlist.component';
 import {SettingsComponent} from './settings/settings.component';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
+  MatChipsModule,
   MatFormFieldModule,
   MatInputModule,
   MatListModule,
   MatSidenavModule,
   MatStepperModule,
   MatToolbarModule
-} from "@angular/material";
+} from '@angular/material';
 import {routes} from "./routes";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSpotify} from "@fortawesome/free-brands-svg-icons";
-import {faFileAudio} from "@fortawesome/pro-solid-svg-icons";
+import {faFileAudio, faTimesCircle} from "@fortawesome/pro-solid-svg-icons";
+import {ReactiveFormsModule} from "@angular/forms";
 
 library.add(faSpotify);
 library.add(faFileAudio);
+library.add(faTimesCircle);
 
 @NgModule({
   declarations: [AppComponent, AddSourceComponent, PlayBarComponent, PlaylistComponent, SettingsComponent],
@@ -38,6 +43,10 @@ library.add(faFileAudio);
     MatToolbarModule,
     MatInputModule,
     MatFormFieldModule,
+    MatButtonToggleModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    ReactiveFormsModule,
     BrowserModule,
     RouterModule.forRoot(routes, {initialNavigation: 'enabled', anchorScrolling: "enabled"}),
     FontAwesomeModule

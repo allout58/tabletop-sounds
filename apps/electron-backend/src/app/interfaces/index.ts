@@ -13,8 +13,8 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-export interface TransferWrapper<T> {
-  result?: T;
-  error?: Error;
-}
 
+export * from './interface';
+export * from './tags.interface';
+export * from './track.interface';
+export * from './track-tags.interface';

@@ -1,18 +1,19 @@
-<mat-vertical-stepper>
-  <mat-step label="Track Source">
-    <div class="my-3">
-      <button mat-raised-button (click)="search()">
-        <fa-icon [fixedWidth]="true" [icon]="['fas', 'file-audio']" class="my-2" size="4x"></fa-icon>
-      </button>
-    </div>
+<mat-vertical-stepper #stepper>
+  <mat-step label="Track Source" *ngIf="false">
+    <mat-button-toggle-group class="my-3">
+      <mat-button-toggle>
+        <fa-icon [fixedWidth]="true" [icon]="['fas', 'file-audio']" class="my-2" size="4x" aria-label="File"></fa-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
     <div>
       <button mat-raised-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step label="Select Track">
+  <mat-step [label]="fileMetadata?.name == null ? 'Select Track' : 'Selected: ' + fileMetadata.name">
     <p>Track selection</p>
+    <input type="file" (change)="fileChanged($event)" accept="audio/*">
     <div>
-      <button mat-raised-button matStepperPrevious>Previous</button>
+      <!--<button mat-raised-button matStepperPrevious>Previous</button>-->
       <button mat-raised-button matStepperNext>Next</button>
     </div>
   </mat-step>
@@ -20,16 +21,42 @@
     <div class="field-row">
       <mat-form-field>
         <mat-label for="name">Name</mat-label>
-        <input id="name" matInput readonly>
+        <input id="name" matInput readonly [value]="fileMetadata?.name">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Album</mat-label>
-        <input matInput readonly>
+        <input matInput readonly [value]="fileMetadata?.album">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Artist</mat-label>
-        <input matInput readonly>
+        <input matInput readonly [value]="fileMetadata?.artist">
       </mat-form-field>
     </div>
+    <mat-form-field>
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let tag of tags"
+          [selectable]="false"
+          [removable]="true"
+          (removed)="removeTag(tag)">
+          {{tag}}
+          <fa-icon matChipRemove [icon]="['fas', 'times-circle']" aria-label="Close"></fa-icon>
+        </mat-chip>
+        <input
+          placeholder="New tag..."
+          [formControl]="tagControl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="tagSeperatorKeyCodes"
+          [matChipInputAddOnBlur]="true"
+          (matChipInputTokenEnd)="addTag($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
+        <mat-option *ngFor="let tag of searchedResult$ | async" [value]="tag">
+          {{tag}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-raised-button (click)="saveTrack()">Add Track</button>
   </mat-step>
 </mat-vertical-stepper>

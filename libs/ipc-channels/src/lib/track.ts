@@ -16,3 +16,17 @@
 
 export const SEARCH_TRACK_REQUEST = 'track.search.request';
 export const SEARCH_TRACK_RESPONSE = 'track.search.response';
+
+export const ADD_TRACK_REQUEST = 'track.add.request';
+export const ADD_TRACK_RESPONSE = 'track.add.response';
+
+// TODO: Rename this?
+export interface AddTrackRequest {
+  name: string,
+  album: string,
+  artist: string,
+  location: string
+}
+
+export const TRACK_METADATA_REQUEST = 'track.metadata.request';
+export const TRACK_METADATA_RESPONSE = 'track.metadata.response';

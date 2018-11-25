@@ -32,17 +32,17 @@ export class DBAccess {
     return this._db;
   }
 
-  close() {
+  close(): Observable<null> {
     return Observable.create(observer => {
       this.db.close(err => {
-                      if (err) {
-                        observer.error(err);
-                      } else {
-                        observer.next(null);
-                        this._db = null;
-                      }
-                      observer.complete();
-                    }
+          if (err) {
+            observer.error(err);
+          } else {
+            observer.next(null);
+            this._db = null;
+          }
+          observer.complete();
+        }
       );
     });
   }
@@ -54,28 +54,37 @@ export class DBAccess {
   private createDB() {
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS tracks (' +
-                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
-                   'name VARCHAR,' +
-                   'album VARCHAR,' +
-                   'artist VARCHAR' +
-                   ');');
+      'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+      'name VARCHAR NOT NULL,' +
+      'album VARCHAR NOT NULL,' +
+      'artist VARCHAR NOT NULL,' +
+      'location VARCHAR NOT NULL,' +
+      'CONSTRAINT track_unique UNIQUE (name, album, artist)' +
+      ');');
+    this._db.run('create unique index IF NOT EXISTS tracks_location_uindex on tracks (location);');
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS tags (' +
-                   'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
-                   'tag_name VARCHAR' +
-                   ');');
+      'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
+      'tag_name VARCHAR' +
+      ');');
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS track_tags (' +
-                   'track_id INTEGER,' +
-                   'tag_id INTEGER,' +
-                   'PRIMARY KEY (track_id, tag_id),' +
-                   'FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE CASCADE ON UPDATE NO ACTION,' +
-                   'FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE ON DELETE NO ACTION' +
-                   ');');
+      'track_id INTEGER,' +
+      'tag_id INTEGER,' +
+      'PRIMARY KEY (track_id, tag_id),' +
+      'FOREIGN KEY (track_id) REFERENCES tracks (id) ON DELETE CASCADE ON UPDATE NO ACTION,' +
+      'FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE ON DELETE NO ACTION' +
+      ');');
 
     this.isEmptyDB = false;
   }
 
+  /**
+   * Return all rows that match the given SQL query as an array
+   * @param sql
+   * @param params
+   * @return Observable of an array containing all the results
+   */
   all<T>(sql: string, ...params): Observable<T[]> {
     return Observable.create(observer => {
       this.db.all(sql, params, (err, rows) => {
@@ -91,16 +100,45 @@ export class DBAccess {
     });
   }
 
-  // run(sql: string, ...params): this {
-  //   return super.run(sql, params);
-  // }
+  /**
+   * Return the first row that matches the given SQL query
+   * @param sql
+   * @param params
+   * @return Observable of an array containing all the results
+   */
+  get<T>(sql: string, ...params): Observable<T> {
+    return Observable.create(observer => {
+      this.db.get(sql, params, (err, row) => {
+        console.log('resp', err, row);
+        if (err) {
+          console.error('Error with SQL', err);
+          observer.error(err);
+        } else {
+          observer.next(row);
+        }
+        observer.complete();
+      });
+    });
+  }
+
+  run(sql: string, ...params): Observable<boolean> {
+    return Observable.create(observer => {
+      this.db.run(sql, params, (err, result) => {
+        if (err) {
+          console.error('Error with SQL', err);
+          observer.error(err);
+        } else {
+          observer.next(true);
+        }
+        observer.complete();
+      })
+    })
+  }
+
+
   //
   // get(sql: string, ...params): this {
   //   return super.get(sql, params);
-  // }
-  //
-  // all(sql: string, ...params): this {
-  //   return super.all(sql, params);
   // }
   //
   // each(sql: string, ...params): this {

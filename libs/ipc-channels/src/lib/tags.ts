@@ -13,8 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-export interface TransferWrapper<T> {
-  result?: T;
-  error?: Error;
-}
 
+export const SEARCH_TAG_REQUEST = 'tag.search.request';
+export const SEARCH_TAG_RESPONSE = 'tag.search.response';

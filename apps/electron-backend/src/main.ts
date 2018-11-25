@@ -1,50 +1,44 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import {environment} from './environments/environment';
 import {DBAccess} from './app/utils/db';
-import {TrackInterface} from './app/track/interface';
-
-let win;
+import {Interface, TagsInterface, TrackInterface, TrackTagsInterface} from './app/interfaces';
+import {WindowManager} from "./app/utils/window";
+import {Dictionary} from "@tabletop-sounds/utils";
 
 const db = new DBAccess();
-db.close().subscribe(x => console.log(x));
+db.close().subscribe();
 
-function createWindow() {
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+const interfaces: Dictionary<Interface> = {};
 
-  // Create the browser window.
-  win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height
-  });
+function createMainWindow() {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (WindowManager.getInstance().getWindow('main') == null) {
+    let win = WindowManager.getInstance().createWindow('main', null);
 
-  if (!environment.production) {
-    require('electron-reload')(__dirname, {
-      electron: path.join(__dirname, '../../../node_modules/.bin/electron')
-    });
-    win.loadURL('http://localhost:4200');
-  } else {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
+    if (!environment.production) {
+      require('electron-reload')(__dirname, {
+        electron: path.join(__dirname, '../../../node_modules/.bin/electron')
+      });
+      win.loadURL('http://localhost:4200');
+    } else {
+      win.loadURL(url.format({
+        pathname: path.join(__dirname, 'dist/index.html'),
+        protocol: 'file:',
+        slashes: true
+      }));
+    }
   }
+}
 
-  win.webContents.openDevTools();
+function initializeInterfaces() {
+  interfaces['track'] = new TrackInterface(db);
+  interfaces['tags'] = new TagsInterface(db);
+  interfaces['track-tags'] = new TrackTagsInterface(db);
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store window
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
-  });
-
+  Object.values(interfaces).forEach(intf => intf.enable());
 }
 
 try {
@@ -52,7 +46,9 @@ try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindow);
+  app.on('ready', () => {
+    createMainWindow();
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
@@ -64,14 +60,10 @@ try {
   });
 
   app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (win === null) {
-      createWindow();
-    }
+    createMainWindow();
   });
 
-  const intf = new TrackInterface(db);
+  initializeInterfaces();
 
 } catch (e) {
   // Catch Error

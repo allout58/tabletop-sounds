@@ -14,25 +14,32 @@
  *    limitations under the License.
  */
 
-import {DBAccess} from '../utils/db';
-import {SEARCH_TRACK_REQUEST, SEARCH_TRACK_RESPONSE} from '@tabletop-sounds/ipc-channels';
-import {ipcMain} from 'electron';
+import {Interface} from "./interface";
+import {DBAccess} from "../utils/db";
+import {Event, ipcMain} from 'electron';
+import {SEARCH_TAG_REQUEST, SEARCH_TAG_RESPONSE} from "@tabletop-sounds/ipc-channels";
 
-export class TrackInterface {
+export class TagsInterface implements Interface {
   constructor(private db: DBAccess) {
+  }
+
+  disable() {
+    ipcMain.removeAllListeners(SEARCH_TAG_REQUEST);
+  }
+
+  enable() {
     this.initSearch();
   }
 
   private initSearch() {
-    ipcMain.on(SEARCH_TRACK_REQUEST, (event, ...args) => {
-      console.log('Event', event, 'args', args);
-      // language=SQLite
-      this.db.all('SELECT * from tracks WHERE ').subscribe(x => {
-        event.sender.send(SEARCH_TRACK_RESPONSE, {result: x});
-      }, error1 => {
-        // language=
-        event.sender.send(SEARCH_TRACK_RESPONSE, {error: error1});
-      });
-    });
+    ipcMain.on(SEARCH_TAG_REQUEST, (event: Event, arg?: string) => {
+      this.db.all<{ tag_name: string }>('SELECT tag_name FROM tags WHERE tag_name LIKE ?', `%${(arg || '').toLowerCase()}%`)
+        .subscribe(x => {
+          const ret = x.map(y => y.tag_name);
+          event.sender.send(SEARCH_TAG_RESPONSE, ret);
+        })
+    })
   }
+
+
 }

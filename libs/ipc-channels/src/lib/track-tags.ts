@@ -13,8 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-export interface TransferWrapper<T> {
-  result?: T;
-  error?: Error;
-}
+
+export const TAGS_FOR_TRACK_REQUEST = 'tags.for.track.request';
+export const TAGS_FOR_TRACK_RESPONSE = 'tags.for.track.response';
+
+export const ADD_TAGS_TO_TRACK_REQUEST = 'tags.add.track.request';
+export const ADD_TAGS_TO_TRACK_RESPONSE = 'tags.add.track.response';
+
+export const REMOVE_TAGS_FROM_TRACK_REQUEST = 'tags.remove.track.request';
+export const REMOVE_TAGS_FROM_TRACK_RESPONSE = 'tags.remove.track.response';
 
