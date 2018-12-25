@@ -65,7 +65,8 @@ export class DBAccess {
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS tags (' +
       'id INTEGER PRIMARY KEY AUTOINCREMENT,' +
-      'tag_name VARCHAR' +
+      'tag_name VARCHAR NOT NULL,' +
+      'CONSTRAINT tag_name_unique UNIQUE (tag_name)' +
       ');');
     // language=SQLite
     this._db.run('CREATE TABLE IF NOT EXISTS track_tags (' +

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {
-  ADD_TAGS_TO_TRACK_REQUEST,
-  ADD_TRACK_REQUEST,
+  ADD_TRACK_WITH_TAGS_REQUEST,
+  ADD_TRACK_WITH_TAGS_RESPONSE,
   AddTrackRequest,
   SEARCH_TAG_REQUEST,
   SEARCH_TAG_RESPONSE,
@@ -14,6 +14,7 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {BehaviorSubject} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatVerticalStepper} from "@angular/material";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'tabletop-sounds-add-source',
@@ -34,9 +35,8 @@ export class AddSourceComponent implements OnInit {
 
   fileMetadata: AddTrackRequest = null;
 
-  constructor(private electron: ElectronService) {
+  constructor(private electron: ElectronService, private router: Router) {
     this.electron.ipcRenderer.on(TRACK_METADATA_RESPONSE, (event, param: TransferWrapper<AddTrackRequest>) => {
-      console.log('Event', event, 'Params', param);
       if (param.error) {
         console.error(param.error);
       } else {
@@ -48,7 +48,7 @@ export class AddSourceComponent implements OnInit {
       if (param.error) {
         console.error(param.error);
       } else {
-        this.searchedResult$.next(param.result);
+        this.searchedResult$.next(param.result.filter(x => !this.tags.includes(x)));
       }
     });
 
@@ -96,8 +96,15 @@ export class AddSourceComponent implements OnInit {
   }
 
   saveTrack() {
-    this.electron.ipcRenderer.send(ADD_TRACK_REQUEST, this.fileMetadata);
-    this.electron.ipcRenderer.send(ADD_TAGS_TO_TRACK_REQUEST, {file: this.fileMetadata, tags: this.tags});
+    this.electron.ipcRenderer.send(ADD_TRACK_WITH_TAGS_REQUEST, {track: this.fileMetadata, tags: this.tags});
+    // this.electron.ipcRenderer.send(ADD_TRACK_REQUEST, this.fileMetadata);
+    // this.electron.ipcRenderer.send(ADD_TAGS_TO_TRACK_REQUEST, {file: this.fileMetadata, tags: this.tags});
+    this.electron.ipcRenderer.on(ADD_TRACK_WITH_TAGS_RESPONSE, val => {
+      if (val) {
+        console.log('Successfully added');
+        this.router.navigate(['/playlist']);
+      }
+    })
   }
 
 
@@ -107,6 +114,5 @@ export class AddSourceComponent implements OnInit {
     this.electron.ipcRenderer.send(TRACK_METADATA_REQUEST, firstFile.path);
     this.matStepper.next();
   }
-
 
 }

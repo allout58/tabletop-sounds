@@ -23,3 +23,6 @@ export const ADD_TAGS_TO_TRACK_RESPONSE = 'tags.add.track.response';
 export const REMOVE_TAGS_FROM_TRACK_REQUEST = 'tags.remove.track.request';
 export const REMOVE_TAGS_FROM_TRACK_RESPONSE = 'tags.remove.track.response';
 
+export const ADD_TRACK_WITH_TAGS_REQUEST = 'tags.track.add.both.request';
+export const ADD_TRACK_WITH_TAGS_RESPONSE = 'tags.track.add.both.response';
+

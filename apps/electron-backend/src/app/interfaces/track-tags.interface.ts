@@ -17,9 +17,17 @@
 import {Event, ipcMain} from 'electron';
 import {Interface} from "./interface";
 import {DBAccess} from "../utils/db";
-import {AddTrackRequest, TAGS_FOR_TRACK_REQUEST, TAGS_FOR_TRACK_RESPONSE} from "@tabletop-sounds/ipc-channels";
+import {
+  ADD_TRACK_WITH_TAGS_REQUEST,
+  ADD_TRACK_WITH_TAGS_RESPONSE,
+  AddTrackRequest,
+  TAGS_FOR_TRACK_REQUEST,
+  TAGS_FOR_TRACK_RESPONSE,
+  TransferWrapper
+} from "@tabletop-sounds/ipc-channels";
 import {isNumber} from "util";
-import {map} from "rxjs/operators";
+import {map, switchMap, withLatestFrom} from "rxjs/operators";
+import {of} from "rxjs";
 
 export class TrackTagsInterface implements Interface {
   constructor(private db: DBAccess) {
@@ -31,6 +39,7 @@ export class TrackTagsInterface implements Interface {
 
   enable() {
     this.initTagsForTrack();
+    this.initAddBoth();
   }
 
   private initTagsForTrack() {
@@ -53,5 +62,40 @@ export class TrackTagsInterface implements Interface {
           })
       }
     })
+  }
+
+  private initAddBoth() {
+    ipcMain.on(ADD_TRACK_WITH_TAGS_REQUEST, (event: Event, add: { track: AddTrackRequest, tags: string[] }) => {
+      const tagQuery = `SELECT id, tag_name
+                   FROM tags
+                   WHERE tag_name in (${add.tags.map(x => '"' + x + '"').join(',')})`;
+      this.db.all(tagQuery)
+        .pipe(
+          switchMap((previousTags: { id: number, tag_name: string }[]) => {
+            const oldTags = previousTags.map(x => x.tag_name);
+            const toAdd = add.tags.filter(x => !oldTags.includes(x));
+            return toAdd.length > 0 ? this.db.run(`INSERT INTO tags (tag_name)
+            VALUES ${toAdd.map(x => '("' + x + '")').join(',')}`) : of(true);
+          }),
+          withLatestFrom(
+            this.db.all<{ id: string, tag_name: string }>(tagQuery),
+            this.db.run('INSERT INTO tracks (name, album, artist, location) VALUES (?, ?, ?, ?)', add.track.name, add.track.album, add.track.artist, add.track.location),
+            this.db.get<{ id: string }>('SELECT id FROM tracks where location=?', add.track.location)
+          ),
+          switchMap(([ins1, tags, ins2, track]) => {
+              const pairs = tags.map(x => ([track.id, x.id])).reduce((acc, val) => acc.concat(val), [])
+              let sql = new Array(tags.length).fill('(?,?)');
+              return this.db.run(
+                'INSERT INTO track_tags VALUES ' + sql.join(', '),
+                ...pairs
+              )
+            }
+          )
+        )
+        .subscribe(
+          () => event.sender.send(ADD_TRACK_WITH_TAGS_RESPONSE, {result: true} as TransferWrapper<boolean>),
+          err => event.sender.send(ADD_TRACK_WITH_TAGS_RESPONSE, {error: err} as TransferWrapper<boolean>)
+        )
+    });
   }
 }
