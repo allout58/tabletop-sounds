@@ -8,15 +8,13 @@ import {AddSourceComponent} from './add-source/add-source.component';
 import {PlayBarComponent} from './component/play-bar/play-bar.component';
 import {PlaylistComponent} from './playlist/playlist.component';
 import {SettingsComponent} from './settings/settings.component';
-import {
-  MatButtonModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatListModule,
-  MatSidenavModule,
-  MatStepperModule,
-  MatToolbarModule
-} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatStepperModule } from "@angular/material/stepper";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import {routes} from "./routes";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
